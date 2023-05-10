@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import * as StompJs from '@stomp/stompjs';
+import axios from "axios";
 import './App.css';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
     client.current.publish({
       destination: '/pub/chat',
       body: JSON.stringify({
+        roomId: 1,
         chat: chat,
       }),
     });
@@ -54,10 +56,8 @@ function App() {
         ..._chat_list,
         [
           <div className={'chat-item'} key={json_body.chat + json_body.writerId}>
-            <p className={'chat-writer'}>
-              {json_body.name} {json_body.role}
-            </p>
             <p className={'chat-context'}>{json_body.chat}</p>
+            <img src={json_body.photoUrl} />
           </div>,
         ],
       ]);
